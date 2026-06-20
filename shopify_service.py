@@ -7,12 +7,20 @@ TOKEN = os.environ.get("SHOPIFY_TOKEN")
 def get_products():
     query = """
     {
-      products(first: 10) {
+      products(first: 20) {
         edges {
           node {
             id
             title
             handle
+            featuredImage {
+              url
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
           }
         }
       }
