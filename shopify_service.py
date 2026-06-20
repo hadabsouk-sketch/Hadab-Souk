@@ -5,19 +5,11 @@ STORE = os.environ.get("SHOPIFY_STORE")
 TOKEN = os.environ.get("SHOPIFY_TOKEN")
 
 def get_products():
-    query = """
-    {
-      products(first: 10) {
-        edges {
-          node {
-            id
-            title
-            handle
-          }
-        }
-      }
+    return {
+        "store": STORE,
+        "token_exists": TOKEN is not None,
+        "token_length": len(TOKEN) if TOKEN else 0
     }
-    """
 
     response = requests.post(
         f"https://jdfd0q-2v.myshopify.com/api/2024-10/graphql.json",
