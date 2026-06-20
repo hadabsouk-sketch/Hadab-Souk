@@ -19,7 +19,7 @@ def get_products():
     """
 
     response = requests.post(
-        f"https://{STORE}/api/2025-01/graphql.json",
+        f"https://jdfd0q-2v.myshopify.com/api/2025-01/graphql.json",
         headers={
             "Content-Type": "application/json",
             "X-Shopify-Storefront-Access-Token": TOKEN
