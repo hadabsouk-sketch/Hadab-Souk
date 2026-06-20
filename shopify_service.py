@@ -4,6 +4,7 @@ import requests
 STORE = os.environ.get("SHOPIFY_STORE")
 TOKEN = os.environ.get("SHOPIFY_TOKEN")
 
+
 def get_products():
     query = """
     {
@@ -26,8 +27,47 @@ def get_products():
       }
     }
     """
-git add .
-git commit -m "Fix Shopify product fields"
-git push
+
+    response = requests.post(
+        f"https://{STORE}/api/2025-01/graphql.json",
+        headers={
+            "Content-Type": "application/json",
+            "Shopify-Storefront-Private-Token": TOKEN
+        },
+        json={"query": query}
+    )
 
     return response.json()
+
+
+def format_products():
+    data = get_products()
+
+    products = []
+
+    for edge in data["data"]["products"]["edges"]:
+        p = edge["node"]
+
+        products.append({
+            "id": p["id"],
+            "slug": p["handle"],
+            "name_en": p["title"],
+            "name_ar": p["title"],
+            "price": float(
+                p["priceRange"]["minVariantPrice"]["amount"]
+            ),
+            "image": (
+                p["featuredImage"]["url"]
+                if p.get("featuredImage")
+                else ""
+            ),
+            "brand": "Hadab Souk",
+            "badge": "",
+            "reviews": 0,
+            "rating": 5,
+            "old_price": None,
+            "featured": True,
+            "best_seller": True
+        })
+
+    return products
