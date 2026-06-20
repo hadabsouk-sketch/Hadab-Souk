@@ -10,23 +10,13 @@ def get_products():
     {
       products(first: 20) {
         edges {
-         node {
-  id
-  title
-  handle
-
-  variants(first: 1) {
-    edges {
-      node {
-        id
-      }
-    }
-  }
-
-  featuredImage {
-    url
-  }
-}
+          node {
+            id
+            title
+            handle
+            featuredImage {
+              url
+            }
             priceRange {
               minVariantPrice {
                 amount
@@ -58,10 +48,9 @@ def format_products():
     for edge in data["data"]["products"]["edges"]:
         p = edge["node"]
 
-     products.append({
-    "id": p["id"],
-    "variant_id": p["variants"]["edges"][0]["node"]["id"],
-    "slug": p["handle"],
+        products.append({
+            "id": p["id"],
+            "slug": p["handle"],
             "name_en": p["title"],
             "name_ar": p["title"],
             "price": float(
@@ -92,13 +81,6 @@ def get_product_by_handle(handle):
         title
         handle
         description
-        variants(first: 1) {
-  edges {
-    node {
-      id
-    }
-  }
-}
         featuredImage {{
           url
         }}
