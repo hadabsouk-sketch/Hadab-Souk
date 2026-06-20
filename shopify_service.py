@@ -57,8 +57,9 @@ def format_products():
     for edge in data["data"]["products"]["edges"]:
         p = edge["node"]
 
-        products.append({
-            "id": p["id"],
+       products.append({
+    "id": p["id"],
+    "variant_id": p["variants"]["edges"][0]["node"]["id"],
             "slug": p["handle"],
             "name_en": p["title"],
             "name_ar": p["title"],
