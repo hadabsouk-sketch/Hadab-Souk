@@ -210,6 +210,10 @@ def health():
 def shopify_test():
     return get_products()
 
+@app.route("/products-test")
+def products_test():
+    return format_products()
+
 @app.route("/shopify-products")
 def shopify_products():
     return get_products()
