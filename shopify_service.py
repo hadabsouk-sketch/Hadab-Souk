@@ -6,37 +6,9 @@ TOKEN = os.environ.get("SHOPIFY_TOKEN")
 
 
 def get_products():
-    query = """
-    {
-      products(first: 20) {
-        edges {
-          node {
-    id
-    title
-    handle
-
-    variants(first: 1) {
-      edges {
-        node {
-          id
-        }
-      }
+    return {
+        "status": "working"
     }
-
-    featuredImage {
-      url
-    }
-
-    priceRange {
-      minVariantPrice {
-        amount
-      }
-    }
-}        }
-      }
-    }
-    """
-
     response = requests.post(
         f"https://{STORE}/api/2025-01/graphql.json",
         headers={
