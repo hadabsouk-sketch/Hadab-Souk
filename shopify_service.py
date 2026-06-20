@@ -85,34 +85,33 @@ def format_products():
 
 def get_product_by_handle(handle):
     query = f"""
-    {{
-     product(handle: "{handle}") {
+{{
+  product(handle: "{handle}") {{
     id
     title
     handle
     description
 
-    variants(first: 1) {
-      edges {
-        node {
+    variants(first: 1) {{
+      edges {{
+        node {{
           id
-        }
-      }
-    }
-
-    featuredImage {
-      url
-    }
-
-    priceRange {
-      minVariantPrice {
-        amount
-      }
-    }
-}
+        }}
+      }}
     }}
-    """
 
+    featuredImage {{
+      url
+    }}
+
+    priceRange {{
+      minVariantPrice {{
+        amount
+      }}
+    }}
+  }}
+}}
+"""
     response = requests.post(
         f"https://{STORE}/api/2025-01/graphql.json",
         headers={
