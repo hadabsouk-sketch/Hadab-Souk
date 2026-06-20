@@ -6,9 +6,28 @@ TOKEN = os.environ.get("SHOPIFY_TOKEN")
 
 
 def get_products():
-    return {
-        "status": "working"
+    query = """
+    {
+      products(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+            featuredImage {
+              url
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
+          }
+        }
+      }
     }
+    """
+
     response = requests.post(
         f"https://{STORE}/api/2025-01/graphql.json",
         headers={
@@ -29,9 +48,8 @@ def format_products():
     for edge in data["data"]["products"]["edges"]:
         p = edge["node"]
 
-       products.append({
-    "id": p["id"],
-    "variant_id": p["variants"]["edges"][0]["node"]["id"],
+        products.append({
+            "id": p["id"],
             "slug": p["handle"],
             "name_en": p["title"],
             "name_ar": p["title"],
@@ -57,33 +75,24 @@ def format_products():
 
 def get_product_by_handle(handle):
     query = f"""
-{{
-  product(handle: "{handle}") {{
-    id
-    title
-    handle
-    description
-
-    variants(first: 1) {{
-      edges {{
-        node {{
-          id
+    {{
+      product(handle: "{handle}") {{
+        id
+        title
+        handle
+        description
+        featuredImage {{
+          url
+        }}
+        priceRange {{
+          minVariantPrice {{
+            amount
+          }}
         }}
       }}
     }}
+    """
 
-    featuredImage {{
-      url
-    }}
-
-    priceRange {{
-      minVariantPrice {{
-        amount
-      }}
-    }}
-  }}
-}}
-"""
     response = requests.post(
         f"https://{STORE}/api/2025-01/graphql.json",
         headers={
