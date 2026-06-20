@@ -11,19 +11,28 @@ def get_products():
       products(first: 20) {
         edges {
           node {
-            id
-            title
-            handle
-            featuredImage {
-              url
-            }
-            priceRange {
-              minVariantPrice {
-                amount
-              }
-            }
-          }
+    id
+    title
+    handle
+
+    variants(first: 1) {
+      edges {
+        node {
+          id
         }
+      }
+    }
+
+    featuredImage {
+      url
+    }
+
+    priceRange {
+      minVariantPrice {
+        amount
+      }
+    }
+}        }
       }
     }
     """
