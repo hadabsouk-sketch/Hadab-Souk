@@ -1,7 +1,7 @@
 import requests
 
 STORE = "jdfd0q-2v.myshopify.com"
-TOKEN = "YOUR_TOKEN_HERE"
+TOKEN = "7b9bd70862a709961032165e5f2d2e0e"
 
 def get_products():
     query = """
