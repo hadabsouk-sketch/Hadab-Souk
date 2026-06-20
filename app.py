@@ -76,9 +76,41 @@ def category(slug):
     return render_template("category.html", category=cat, products=items)
 
 
-@app.route("/product-test/<handle>")
-def product_test(handle):
-    return get_product_by_handle(handle)
+@app.route("/product/<slug>")
+def product(slug):
+
+    data = get_product_by_handle(slug)
+
+    node = data["data"]["product"]
+
+    p = {
+    "id": node["id"],
+    "slug": node["handle"],
+
+    "name_en": node["title"],
+    "name_ar": node["title"],
+
+    "desc_en": node["description"],
+    "desc_ar": node["description"],
+
+    "image": node["featuredImage"]["url"] if node.get("featuredImage") else "",
+
+    "price": float(
+        node["priceRange"]["minVariantPrice"]["amount"]
+    ),
+
+    "brand": "Hadab Souk",
+    "category": "electronics",
+
+    "rating": 5,
+    "reviews": 0,
+    "old_price": None
+}
+    return render_template(
+        "product.html",
+        product=p,
+        related=[]
+    )
     if not p:
         return render_template("404.html"), 404
     return render_template("product.html", product=p, related=related(p))
