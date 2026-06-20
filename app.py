@@ -209,6 +209,10 @@ def contact():
 def not_found(e):
     return render_template("404.html"), 404
 
+@app.route("/health")
+def health():
+    return "OK"
+
 @app.route("/shopify-test")
 def shopify_test():
     return get_products()
