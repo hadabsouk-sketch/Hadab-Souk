@@ -66,6 +66,9 @@ def shop():
         items.sort(key=lambda p: -p["rating"])
     return render_template("shop.html", products=items, q=q, sort=sort)
 
+@app.route("/shopify-test")
+def shopify_test():
+    return get_products()
 
 @app.route("/category/<slug>")
 def category(slug):
