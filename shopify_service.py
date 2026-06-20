@@ -1,7 +1,8 @@
+import os
 import requests
 
-STORE = "jdfd0q-2v.myshopify.com"
-TOKEN = "7b9bd70862a709961032165e5f2d2e0e"
+STORE = os.environ.get("SHOPIFY_STORE")
+TOKEN = os.environ.get("SHOPIFY_TOKEN")
 
 def get_products():
     query = """
