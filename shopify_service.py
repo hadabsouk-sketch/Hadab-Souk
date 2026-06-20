@@ -10,13 +10,23 @@ def get_products():
     {
       products(first: 20) {
         edges {
-          node {
-            id
-            title
-            handle
-            featuredImage {
-              url
-            }
+         node {
+  id
+  title
+  handle
+
+  variants(first: 1) {
+    edges {
+      node {
+        id
+      }
+    }
+  }
+
+  featuredImage {
+    url
+  }
+}
             priceRange {
               minVariantPrice {
                 amount
@@ -81,6 +91,13 @@ def get_product_by_handle(handle):
         title
         handle
         description
+        variants(first: 1) {
+  edges {
+    node {
+      id
+    }
+  }
+}
         featuredImage {{
           url
         }}
