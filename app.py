@@ -83,28 +83,21 @@ def product(slug):
     node = data["data"]["product"]
 
     p = {
-    "id": node["id"],
-    "slug": node["handle"],
+        "id": node["id"],
+        "slug": node["handle"],
+        "name_en": node["title"],
+        "name_ar": node["title"],
+        "desc_en": node["description"],
+        "desc_ar": node["description"],
+        "image": node["featuredImage"]["url"] if node.get("featuredImage") else "",
+        "price": float(node["priceRange"]["minVariantPrice"]["amount"]),
+        "brand": "Hadab Souk",
+        "category": "electronics",
+        "rating": 5,
+        "reviews": 0,
+        "old_price": None
+    }
 
-    "name_en": node["title"],
-    "name_ar": node["title"],
-
-    "desc_en": node["description"],
-    "desc_ar": node["description"],
-
-    "image": node["featuredImage"]["url"] if node.get("featuredImage") else "",
-
-    "price": float(
-        node["priceRange"]["minVariantPrice"]["amount"]
-    ),
-
-    "brand": "Hadab Souk",
-    "category": "electronics",
-
-    "rating": 5,
-    "reviews": 0,
-    "old_price": None
-}
     return render_template(
         "product.html",
         product=p,
