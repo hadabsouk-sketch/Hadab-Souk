@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ t.nav_contact }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container" style="max-width:600px;padding:48px 16px">
+  <h1 style="font-family:'Playfair Display',serif;font-size:32px;margin-bottom:24px">{{ t.nav_contact }}</h1>
+  <form method="post" style="display:flex;flex-direction:column;gap:16px">
+    <div class="field"><label>{{ t.name }}</label><input required></div>
+    <div class="field"><label>{{ t.email }}</label><input type="email" required></div>
+    <div class="field"><label>Message</label><textarea rows="5" required></textarea></div>
+    <button class="btn btn-primary">Send Message</button>
+  </form>
+</div>
+{% endblock %}

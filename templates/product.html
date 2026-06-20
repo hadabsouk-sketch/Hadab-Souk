@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ product[name_field] }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="breadcrumb">
+    <a href="{{ url_for('index') }}">{{ t.nav_home }}</a> /
+    <a href="{{ url_for('category', slug=product.category) }}">{{ product.category }}</a> /
+    {{ product[name_field] }}
+  </div>
+
+  <div class="product-detail">
+    <div class="image"><img src="{{ product.image }}" alt="{{ product[name_field] }}"></div>
+    <div>
+      <p class="brand">{{ product.brand }}</p>
+      <h1>{{ product[name_field] }}</h1>
+      <div class="rating" style="color:var(--gold);margin-top:8px">
+        {% for _ in range(product.rating|int) %}★{% endfor %}
+        <span style="color:var(--muted);font-size:13px"> {{ product.rating }} ({{ product.reviews }} {{ t.reviews }})</span>
+      </div>
+      <div class="price-row">
+        <span class="price">SAR {{ product.price }}</span>
+        {% if product.old_price %}<span class="old-price">SAR {{ product.old_price }}</span>{% endif %}
+      </div>
+      <p class="desc">{{ product[desc_field] }}</p>
+      <p style="color:var(--emerald);font-weight:600">✓ {{ t.in_stock }}</p>
+
+      <form method="post" action="{{ url_for('cart_add', pid=product.id) }}" class="product-actions">
+        <input type="number" name="qty" value="1" min="1" class="qty-input">
+        <button class="btn btn-primary">🛒 {{ t.add_to_cart }}</button>
+        <a href="{{ url_for('cart_view') }}" class="btn btn-gold">{{ t.buy_now }}</a>
+      </form>
+
+      <h3 style="margin-top:32px;font-size:18px">{{ t.specifications }}</h3>
+      <table class="specs">
+        <tr><td>{{ t.price }}</td><td>SAR {{ product.price }}</td></tr>
+        <tr><td>Brand</td><td>{{ product.brand }}</td></tr>
+        <tr><td>Category</td><td>{{ product.category }}</td></tr>
+        <tr><td>Rating</td><td>{{ product.rating }} / 5</td></tr>
+      </table>
+    </div>
+  </div>
+
+  {% if related %}
+  <div class="section">
+    <div class="section-head"><h2>{{ t.related }}</h2></div>
+    <div class="product-grid">
+      {% for p in related %}{% include "_product_card.html" %}{% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ t.nav_about }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container" style="max-width:800px;padding:48px 16px">
+  <h1 style="font-family:'Playfair Display',serif;font-size:36px;margin-bottom:16px">{{ t.nav_about }} {{ t.brand }}</h1>
+  <p style="color:var(--muted);line-height:1.8;font-size:16px">{{ t.footer_about }}</p>
+  <p style="color:var(--muted);line-height:1.8;font-size:16px;margin-top:16px">
+    {{ t.brand }} brings together the latest smartphones, laptops, smart watches, gaming consoles, cameras and home appliances at competitive prices with fast delivery and trusted warranty across the Gulf and South Asia.
+  </p>
+</div>
+{% endblock %}

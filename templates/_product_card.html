@@ -1,0 +1,13 @@
+<a href="{{ url_for('product', slug=p.slug) }}" class="product-card">
+  {% if p.badge %}<span class="badge-tag">{{ p.badge }}</span>{% endif %}
+  <div class="image"><img src="{{ p.image }}" alt="{{ p[name_field] }}" loading="lazy"></div>
+  <div class="body">
+    <span class="brand">{{ p.brand }}</span>
+    <h3>{{ p[name_field] }}</h3>
+    <div class="rating">{% for _ in range(p.rating|int) %}★{% endfor %} <span>({{ p.reviews }})</span></div>
+    <div class="price-row">
+      <span class="price">SAR {{ p.price }}</span>
+      {% if p.old_price %}<span class="old-price">SAR {{ p.old_price }}</span>{% endif %}
+    </div>
+  </div>
+</a>

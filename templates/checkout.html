@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ t.checkout }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="breadcrumb"><a href="{{ url_for('cart_view') }}">{{ t.your_cart }}</a> / {{ t.checkout }}</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin:16px 0">{{ t.checkout }}</h2>
+
+  <div class="cart-grid">
+    <form method="post" action="{{ url_for('checkout') }}">
+      <input type="hidden" name="action" value="place">
+      <input type="hidden" name="coupon" value="{{ coupon }}">
+
+      <h3 style="margin:16px 0 12px">📍 Shipping Address</h3>
+      <div class="form-grid">
+        <div class="field"><label>{{ t.name }}</label><input required></div>
+        <div class="field"><label>{{ t.email }}</label><input type="email" required></div>
+        <div class="field"><label>{{ t.phone }}</label><input required></div>
+        <div class="field"><label>{{ t.city }}</label><input required></div>
+        <div class="field" style="grid-column:1/-1"><label>{{ t.address }}</label><input required></div>
+        <div class="field">
+          <label>{{ t.country }}</label>
+          <select>
+            <option>Saudi Arabia</option><option>UAE</option><option>Qatar</option>
+            <option>Kuwait</option><option>Oman</option><option>Pakistan</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 style="margin:24px 0 12px">💳 {{ t.payment_method }}</h3>
+      <div class="radio-group">
+        <label><input type="radio" name="pay" value="cod" checked> {{ t.cod }}</label>
+        <label><input type="radio" name="pay" value="card"> {{ t.card }}</label>
+      </div>
+
+      <button class="btn btn-primary btn-block" style="margin-top:24px">✓ {{ t.place_order }}</button>
+    </form>
+
+    <div class="summary">
+      <h3>Order Summary</h3>
+      {% for it in items %}
+        <div class="row"><span>{{ it.product[name_field] }} × {{ it.qty }}</span><span>SAR {{ it.product.price * it.qty }}</span></div>
+      {% endfor %}
+      <div class="row" style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px"><span>{{ t.subtotal }}</span><span>SAR {{ subtotal }}</span></div>
+      {% if discount %}<div class="row" style="color:var(--emerald)"><span>Discount</span><span>− SAR {{ '%.0f'|format(discount) }}</span></div>{% endif %}
+      <div class="row"><span>{{ t.shipping }}</span><span>{{ t.free if shipping==0 else 'SAR ' ~ shipping }}</span></div>
+      <div class="row total"><span>{{ t.total }}</span><span>SAR {{ '%.0f'|format(total) }}</span></div>
+
+      <form method="post" action="{{ url_for('checkout') }}" style="margin-top:16px;display:flex;gap:6px">
+        <input name="coupon" placeholder="{{ t.coupon }} (try HADAB10)" class="qty-input" style="flex:1;width:auto;text-align:start">
+        <button class="btn btn-gold" style="padding:8px 16px">{{ t.apply }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+<div style="height:48px"></div>
+{% endblock %}

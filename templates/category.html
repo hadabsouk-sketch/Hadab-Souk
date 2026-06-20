@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ category[cat_name_field] }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="breadcrumb">
+    <a href="{{ url_for('index') }}">{{ t.nav_home }}</a> / <a href="{{ url_for('shop') }}">{{ t.nav_shop }}</a> / {{ category[cat_name_field] }}
+  </div>
+  <div class="section-head">
+    <h2>{{ category.icon }} {{ category[cat_name_field] }} ({{ products|length }})</h2>
+  </div>
+  {% if products %}
+    <div class="product-grid">
+      {% for p in products %}{% include "_product_card.html" %}{% endfor %}
+    </div>
+  {% else %}
+    <div class="empty"><p>No products in this category yet.</p></div>
+  {% endif %}
+</div>
+<div style="height:48px"></div>
+{% endblock %}

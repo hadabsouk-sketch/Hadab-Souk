@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ t.your_cart }} — {{ t.brand }}{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="breadcrumb"><a href="{{ url_for('index') }}">{{ t.nav_home }}</a> / {{ t.your_cart }}</div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:28px;margin:16px 0">{{ t.your_cart }}</h2>
+
+  {% if items %}
+  <div class="cart-grid">
+    <div>
+      {% for it in items %}
+      <div class="cart-item">
+        <img src="{{ it.product.image }}" alt="">
+        <div>
+          <h4>{{ it.product[name_field] }}</h4>
+          <div class="meta">{{ it.product.brand }} · SAR {{ it.product.price }}</div>
+          <form method="post" action="{{ url_for('cart_update', pid=it.product.id) }}" style="margin-top:6px;display:flex;gap:6px;align-items:center">
+            <label style="font-size:12px">{{ t.qty }}:</label>
+            <input type="number" name="qty" value="{{ it.qty }}" min="0" class="qty-input" style="width:60px;padding:6px">
+            <button class="btn btn-outline" style="padding:6px 10px;font-size:12px">Update</button>
+          </form>
+        </div>
+        <div style="text-align:end">
+          <div style="font-weight:700;color:var(--emerald);font-size:16px">SAR {{ it.line }}</div>
+          <form method="post" action="{{ url_for('cart_remove', pid=it.product.id) }}" style="margin-top:6px">
+            <button class="btn btn-danger" style="padding:6px 10px;font-size:12px">{{ t.remove }}</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="summary">
+      <h3>{{ t.checkout }}</h3>
+      <div class="row"><span>{{ t.subtotal }}</span><span>SAR {{ subtotal }}</span></div>
+      <div class="row"><span>{{ t.shipping }}</span><span>{{ t.free if subtotal >= 200 else 'SAR 25' }}</span></div>
+      <div class="row total"><span>{{ t.total }}</span><span>SAR {{ subtotal if subtotal >= 200 else subtotal + 25 }}</span></div>
+      <a href="{{ url_for('checkout') }}" class="btn btn-primary btn-block" style="margin-top:16px">{{ t.checkout }}</a>
+      <a href="{{ url_for('shop') }}" class="btn btn-outline btn-block" style="margin-top:8px">{{ t.continue_shopping }}</a>
+    </div>
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="ico">🛒</div>
+    <p style="margin-bottom:16px">{{ t.empty_cart }}</p>
+    <a href="{{ url_for('shop') }}" class="btn btn-primary">{{ t.continue_shopping }}</a>
+  </div>
+  {% endif %}
+</div>
+<div style="height:48px"></div>
+{% endblock %}

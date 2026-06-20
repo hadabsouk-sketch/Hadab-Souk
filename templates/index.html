@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-inner">
+    <h1>{{ t.tagline.split(',')[0] }}, <span>{{ t.tagline.split(',')[1] if ',' in t.tagline else '' }}</span></h1>
+    <p>{{ t.footer_about }}</p>
+    <a href="{{ url_for('shop') }}" class="btn btn-gold">{{ t.shop_now }} →</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container feature-grid">
+    <div class="feature"><span class="ico">🚚</span><div><h4>{{ t.free_delivery }}</h4><p>{{ t.free_delivery_d }}</p></div></div>
+    <div class="feature"><span class="ico">🔒</span><div><h4>{{ t.secure_pay }}</h4><p>{{ t.secure_pay_d }}</p></div></div>
+    <div class="feature"><span class="ico">↩️</span><div><h4>{{ t.returns }}</h4><p>{{ t.returns_d }}</p></div></div>
+    <div class="feature"><span class="ico">💬</span><div><h4>{{ t.support }}</h4><p>{{ t.support_d }}</p></div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ t.categories }}</h2></div>
+    <div class="cat-grid">
+      {% for c in categories %}
+        <a href="{{ url_for('category', slug=c.slug) }}" class="cat-card">
+          <div class="ico">{{ c.icon }}</div>
+          <h3>{{ c[cat_name_field] }}</h3>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container">
+    <div class="section-head"><h2>⚡ {{ t.flash_sale }}</h2><a href="{{ url_for('shop') }}">{{ t.shop_now }} →</a></div>
+    <div class="product-grid">
+      {% for p in deals %}{% include "_product_card.html" %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ t.featured }}</h2><a href="{{ url_for('shop') }}">{{ t.shop_now }} →</a></div>
+    <div class="product-grid">
+      {% for p in featured %}{% include "_product_card.html" %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container">
+    <div class="section-head"><h2>{{ t.best_sellers }}</h2></div>
+    <div class="product-grid">
+      {% for p in best %}{% include "_product_card.html" %}{% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

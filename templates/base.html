@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="{{ lang }}" dir="{{ dir }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}{{ t.brand }} — {{ t.tagline }}{% endblock %}</title>
+  <meta name="description" content="{{ t.footer_about }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body dir="{{ dir }}">
+  <div class="topbar">
+    <div class="container">
+      <span>🚚 {{ t.free_delivery_d }}</span>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="{{ url_for('about') }}">{{ t.nav_about }}</a>
+        <a href="{{ url_for('contact') }}">{{ t.nav_contact }}</a>
+        <a href="{{ url_for('set_lang', lang='ar' if lang=='en' else 'en') }}" class="lang-toggle">
+          {{ 'العربية' if lang == 'en' else 'English' }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="{{ url_for('index') }}" class="logo">Hadab<span>Souk</span></a>
+      <form class="search" action="{{ url_for('shop') }}" method="get">
+        <input type="search" name="q" placeholder="{{ t.search_placeholder }}" value="{{ request.args.get('q','') }}">
+      </form>
+      <div class="header-actions">
+        <a href="{{ url_for('cart_view') }}" class="icon-btn">🛒 {{ t.cart }}
+          {% if cart_count %}<span class="badge">{{ cart_count }}</span>{% endif %}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="{{ url_for('index') }}">{{ t.nav_home }}</a>
+      <a href="{{ url_for('shop') }}">{{ t.nav_shop }}</a>
+      {% for c in categories %}
+        <a href="{{ url_for('category', slug=c.slug) }}">{{ c.icon }} {{ c[cat_name_field] }}</a>
+      {% endfor %}
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="container">
+        {% for cat, msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>{{ t.brand }}</h4>
+          <p>{{ t.footer_about }}</p>
+        </div>
+        <div>
+          <h4>{{ t.categories }}</h4>
+          {% for c in categories[:5] %}
+            <a href="{{ url_for('category', slug=c.slug) }}">{{ c[cat_name_field] }}</a>
+          {% endfor %}
+        </div>
+        <div>
+          <h4>{{ t.nav_about }}</h4>
+          <a href="{{ url_for('about') }}">{{ t.nav_about }}</a>
+          <a href="{{ url_for('contact') }}">{{ t.nav_contact }}</a>
+          <a href="{{ url_for('shop') }}">{{ t.nav_shop }}</a>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p>📧 support@hadabsouk.com</p>
+          <p>📞 +966 800 123 4567</p>
+          <p>🌍 SA · AE · QA · KW · OM · PK</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 {{ t.brand }}. {{ t.rights }}
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
