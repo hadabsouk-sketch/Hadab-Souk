@@ -37,10 +37,14 @@ def set_lang(lang):
 # ---------- Pages ----------
 @app.route("/")
 def index():
-    featured = [p for p in PRODUCTS if p.get("featured")]
-    best = [p for p in PRODUCTS if p.get("best_seller")]
-    deals = [p for p in PRODUCTS if p.get("old_price")][:4]
-    return render_template("index.html", featured=featured, best=best, deals=deals)
+    products = format_products()
+
+    return render_template(
+        "index.html",
+        featured=products,
+        best=products,
+        deals=products[:4]
+    )
 
 
 @app.route("/shop")
