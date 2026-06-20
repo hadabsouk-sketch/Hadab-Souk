@@ -26,7 +26,28 @@ def get_products():
       }
     }
     """
+def format_products():
+    data = get_products()
 
+    products = []
+
+    for edge in data["data"]["products"]["edges"]:
+        p = edge["node"]
+
+        products.append({
+            "id": p["id"],
+            "slug": p["handle"],
+            "name_en": p["title"],
+            "name_ar": p["title"],
+            "price": float(p["priceRange"]["minVariantPrice"]["amount"]),
+            "image": p["featuredImage"]["url"] if p["featuredImage"] else "",
+            "rating": 5,
+            "brand": "Shopify",
+            "featured": True
+        })
+
+    return products
+    
     response = requests.post(
         f"https://{STORE}/api/2025-01/graphql.json",
         headers={
