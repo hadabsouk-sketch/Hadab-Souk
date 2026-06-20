@@ -72,6 +72,7 @@ def format_products():
 
     return products
 
+
 def get_product_by_handle(handle):
     query = f"""
     {{
