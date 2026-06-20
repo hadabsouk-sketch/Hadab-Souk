@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from catalog import PRODUCTS, CATEGORIES, get_product, get_category, by_category, related
 from translations import TRANSLATIONS
 from shopify_service import get_products
+from shopify_service import get_products
 
 app = Flask(__name__)
 app.secret_key = "hadab-souk-change-this-secret-in-production"
