@@ -85,20 +85,30 @@ def format_products():
 def get_product_by_handle(handle):
     query = f"""
     {{
-      product(handle: "{handle}") {{
-        id
-        title
-        handle
-        description
-        featuredImage {{
-          url
-        }}
-        priceRange {{
-          minVariantPrice {{
-            amount
-          }}
-        }}
-      }}
+     product(handle: "{handle}") {
+    id
+    title
+    handle
+    description
+
+    variants(first: 1) {
+      edges {
+        node {
+          id
+        }
+      }
+    }
+
+    featuredImage {
+      url
+    }
+
+    priceRange {
+      minVariantPrice {
+        amount
+      }
+    }
+}
     }}
     """
 
