@@ -51,7 +51,7 @@ def index():
 def shop():
     q = request.args.get("q", "").strip().lower()
     sort = request.args.get("sort", "featured")
-    items = PRODUCTS[:]
+    items = format_products()
     if q:
         items = [p for p in items if q in p["name_en"].lower() or q in p["name_ar"] or q in p["brand"].lower()]
     if sort == "low":
